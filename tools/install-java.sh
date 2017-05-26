@@ -20,9 +20,13 @@ echo 'deb http://deb.debian.org/debian jessie-backports main' > /etc/apt/sources
     } > /usr/local/bin/docker-java-home \
     && chmod +x /usr/local/bin/docker-java-home
 
+# install Java and 32bit support for Android SDK
 set -x \
+    && dpkg --add-architecture i386 \
     && apt-get update \
-    && apt-get install -y \
+    && apt-get install --force-yes -y --no-install-recommends \
+        sudo libstdc++6:i386 libgcc1:i386 zlib1g:i386 libncurses5:i386 python python-dev \
+        expect bzip2 unzip xz-utils \
         openjdk-8-jre="$JAVA_DEBIAN_VERSION" \
         openjdk-8-jdk-headless="$JAVA_DEBIAN_VERSION" \
         openjdk-8-jre-headless="$JAVA_DEBIAN_VERSION" \
